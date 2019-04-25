@@ -14,6 +14,7 @@
 *.ipr
 *.iws
 .idea/
+!.idea/fileTemplates/**
 
 # Visual Studio Code related
 .vscode/
