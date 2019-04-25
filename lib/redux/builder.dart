@@ -3,11 +3,12 @@ import 'package:flutter_app/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+typedef SubStateSelector<T> = T Function(AppState);
 typedef StateWidgetBuilder<T> = Widget Function(BuildContext context, NextDispatcher dispatch, T state);
 typedef SubStateProvider<T> = T Function(AppState);
 
 class StateBuilder<T> extends StatelessWidget {
-  final T Function(AppState) state;
+  final SubStateSelector<T> state;
   final StateWidgetBuilder<T> builder;
 
   const StateBuilder({
