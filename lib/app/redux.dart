@@ -2,6 +2,7 @@ import 'package:built_value/built_value.dart';
 import 'package:flutter_app/screens/home/redux.dart';
 import 'package:flutter_app/screens/list/redux.dart';
 import 'package:flutter_app/screens/main/redux.dart';
+import 'package:redux_epics/redux_epics.dart';
 
 part 'redux.g.dart';
 
@@ -28,3 +29,7 @@ AppState appStateReducer(AppState state, action) {
     ..listState.replace(listReducer(state.listState, action))
     ..homeState.replace(homeStateReducer(state.homeState, action)));
 }
+
+final appEpic = combineEpics<AppState>([
+  listEpic,
+]);

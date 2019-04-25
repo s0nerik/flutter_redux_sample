@@ -10,11 +10,15 @@ typedef SubStateProvider<T> = T Function(AppState);
 class StateBuilder<T> extends StatelessWidget {
   final SubStateSelector<T> state;
   final StateWidgetBuilder<T> builder;
+  final OnInitCallback<AppState> onInit;
+  final OnDisposeCallback<AppState> onDispose;
 
   const StateBuilder({
     Key key,
     @required this.state,
     @required this.builder,
+    this.onInit,
+    this.onDispose,
   })  : assert(state != null),
         assert(builder != null),
         super(key: key);
@@ -25,6 +29,8 @@ class StateBuilder<T> extends StatelessWidget {
       converter: (store) => _SubStateWrapper(store, state(store.state)),
       distinct: true,
       builder: (context, stateWrapper) => builder(context, stateWrapper.store.dispatch, stateWrapper.state),
+      onInit: onInit,
+      onDispose: onDispose,
     );
   }
 }

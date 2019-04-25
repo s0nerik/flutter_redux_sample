@@ -7,6 +7,7 @@ class ListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateBuilder(
       state: (state) => state.listState,
+      onInit: (store) => store.dispatch(LoadAction()),
       builder: (context, dispatch, ListState state) {
         return ListView.builder(
           itemCount: state.items.length,
