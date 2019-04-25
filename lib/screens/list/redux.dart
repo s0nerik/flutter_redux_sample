@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 part 'redux.g.dart';
 
-// State
+// region State
 
 abstract class ListState implements Built<ListState, ListStateBuilder> {
   BuiltList<String> get items;
@@ -31,7 +31,9 @@ abstract class ListState implements Built<ListState, ListStateBuilder> {
     ..isFiltering = false;
 }
 
-// Actions
+// endregion State
+
+// region Actions
 
 class LoadAction {}
 
@@ -55,7 +57,9 @@ class FilterAppliedAction {
   FilterAppliedAction(this.items);
 }
 
-// Reducers
+// endregion Actions
+
+// region Reducers
 
 final listReducer = combineReducers<ListState>([
   TypedReducer(_onLoad),
@@ -74,7 +78,9 @@ ListState _onLoadError(ListState state, LoadErrorAction action) => state.rebuild
   ..isLoading = false
   ..hasLoadError = true);
 
-// Epics
+// endregion Reducers
+
+// region Epics
 
 final listEpic = combineEpics<AppState>([
   TypedEpic(_loadItemsEpic),
@@ -84,3 +90,5 @@ Stream<dynamic> _loadItemsEpic(Stream<LoadAction> actions, EpicStore<AppState> s
   return Observable(actions)
       .switchMap((action) => Observable.timer(LoadSuccessAction(["Item 1", "Item 2", "Item 3"]), Duration(seconds: 2)));
 }
+
+// endregion Epics
