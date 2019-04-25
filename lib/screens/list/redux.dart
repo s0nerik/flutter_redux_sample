@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:flutter_app/app/redux.dart';
+import 'package:flutter_app/repo.dart';
 import 'package:flutter_app/screens/home/redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
@@ -89,8 +90,7 @@ final listEpic = combineEpics<AppState>([
 ]);
 
 Stream<dynamic> _loadItemsEpic(Stream<LoadAction> actions, EpicStore<AppState> store) {
-  return Observable(actions).switchMap(
-      (action) => Observable.timer(LoadSuccessAction(List.generate(1000, (i) => "Item $i")), Duration(seconds: 2)));
+  return Observable(actions).switchMap((action) => loadItems().map((items) => LoadSuccessAction(items)));
 }
 
 Stream<dynamic> _increaseItemsCountEpic(Stream<IncreaseItemsCount> a, EpicStore<AppState> store) {
