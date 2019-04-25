@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:flutter_app/app/redux.dart';
+import 'package:flutter_app/screens/home/redux.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
@@ -84,11 +85,19 @@ ListState _onLoadError(ListState state, LoadErrorAction action) => state.rebuild
 
 final listEpic = combineEpics<AppState>([
   TypedEpic(_loadItemsEpic),
+  TypedEpic(_increaseItemsCountEpic),
 ]);
 
 Stream<dynamic> _loadItemsEpic(Stream<LoadAction> actions, EpicStore<AppState> store) {
-  return Observable(actions)
-      .switchMap((action) => Observable.timer(LoadSuccessAction(["Item 1", "Item 2", "Item 3"]), Duration(seconds: 2)));
+  return Observable(actions).switchMap(
+      (action) => Observable.timer(LoadSuccessAction(List.generate(1000, (i) => "Item $i")), Duration(seconds: 2)));
+}
+
+Stream<dynamic> _increaseItemsCountEpic(Stream<IncreaseItemsCount> a, EpicStore<AppState> store) {
+  final changes = Observable(store.onChange);
+  final items = changes.map((s) => s.listState.items).where((l) => l.isNotEmpty).distinct();
+  final count = changes.map((s) => s.homeState.itemCount).distinct();
+  return Observable.combineLatest2(items, count, (BuiltList<String> i, int c) => LoadSuccessAction(i.take(c).toList()));
 }
 
 // endregion Epics
