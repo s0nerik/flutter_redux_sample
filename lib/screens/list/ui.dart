@@ -7,10 +7,10 @@ class ListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateBuilder(
       state: (state) => state.listState,
-      builder: (context, dispatch, ListState listState) {
+      builder: (context, dispatch, ListState state) {
         return ListView.builder(
-          itemCount: listState.items.length,
-          itemBuilder: (context, index) => Text("${listState.items[index]}"),
+          itemCount: state.items.length,
+          itemBuilder: (context, index) => Text("${state.items[index]}"),
         );
       },
     );
