@@ -14,18 +14,18 @@ class MainScreen extends StatelessWidget {
     final homeBloc = HomeBloc();
     final listBloc = ListBloc(homeBloc.itemCount);
 
-    return BlocProvider<MainBloc>(
-      bloc: mainBloc,
-      child: BlocProvider<HomeBloc>(
-        bloc: homeBloc,
-        child: BlocProvider<ListBloc>(
-          bloc: listBloc,
+    return BlocProvider(
+      mainBloc,
+      child: BlocProvider(
+        homeBloc,
+        child: BlocProvider(
+          listBloc,
           child: Scaffold(
             appBar: AppBar(
               title: Text("Hello redux"),
             ),
-            body: _body(context, mainBloc),
-            bottomNavigationBar: _bottomNav(context, mainBloc),
+            body: _Body(),
+            bottomNavigationBar: _BottomNav(),
           ),
         ),
       ),
@@ -33,46 +33,52 @@ class MainScreen extends StatelessWidget {
   }
 }
 
-Widget _body(BuildContext context, MainBloc mainBloc) {
-//  final mainBloc = BlocProvider.of<MainBloc>(context);
-  return ValueObservableBuilder<int>(
-    valueObservable: mainBloc.navBarSelection,
-    builder: (context, navBarSelection, child) {
-      switch (navBarSelection) {
-        case 1:
-          return ListScreen();
-        case 2:
-          return HomeScreen();
-        default:
-          return Container();
-      }
-    },
-  );
+class _Body extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final mainBloc = BlocProvider.of<MainBloc>(context);
+    return ValueObservableBuilder<int>(
+      valueObservable: mainBloc.navBarSelection,
+      builder: (context, navBarSelection, child) {
+        switch (navBarSelection) {
+          case 1:
+            return ListScreen();
+          case 2:
+            return HomeScreen();
+          default:
+            return Container();
+        }
+      },
+    );
+  }
 }
 
-Widget _bottomNav(BuildContext context, MainBloc mainBloc) {
-//  final mainBloc = BlocProvider.of<MainBloc>(context);
-  return ValueObservableBuilder<int>(
-    valueObservable: mainBloc.navBarSelection,
-    builder: (BuildContext context, int navBarSelection, Widget child) {
-      return BottomNavigationBar(
-        currentIndex: navBarSelection,
-        onTap: mainBloc.setNavBarSelection,
-        items: [
-          BottomNavigationBarItem(
-            icon: SizedBox(width: 24, height: 24),
-            title: Text("Unused"),
-          ),
-          BottomNavigationBarItem(
-            icon: SizedBox(width: 24, height: 24),
-            title: Text("List"),
-          ),
-          BottomNavigationBarItem(
-            icon: SizedBox(width: 24, height: 24),
-            title: Text("Home"),
-          ),
-        ],
-      );
-    },
-  );
+class _BottomNav extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final mainBloc = BlocProvider.of<MainBloc>(context);
+    return ValueObservableBuilder<int>(
+      valueObservable: mainBloc.navBarSelection,
+      builder: (BuildContext context, int navBarSelection, Widget child) {
+        return BottomNavigationBar(
+          currentIndex: navBarSelection,
+          onTap: mainBloc.setNavBarSelection,
+          items: [
+            BottomNavigationBarItem(
+              icon: SizedBox(width: 24, height: 24),
+              title: Text("Unused"),
+            ),
+            BottomNavigationBarItem(
+              icon: SizedBox(width: 24, height: 24),
+              title: Text("List"),
+            ),
+            BottomNavigationBarItem(
+              icon: SizedBox(width: 24, height: 24),
+              title: Text("Home"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
