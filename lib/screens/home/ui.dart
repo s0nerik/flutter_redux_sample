@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/redux/builder.dart';
-import 'package:flutter_app/screens/home/redux.dart';
+import 'package:flutter_app/bloc/bloc.dart';
+import 'package:flutter_app/bloc/value_observable_builder.dart';
+import 'package:flutter_app/screens/home/bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final homeBloc = BlocProvider.of<HomeBloc>(context);
     return Scaffold(
-      floatingActionButton: _fab(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: homeBloc.increaseItemsCount,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
       body: Row(
         children: <Widget>[
-          StateBuilder(
-            state: (state) => state.homeState.itemCount,
-            builder: (context, dispatch, itemCount) {
+          ValueObservableBuilder<int>(
+            valueObservable: homeBloc.itemCount,
+            builder: (context, itemCount, child) {
               return Text(
                 '$itemCount',
                 style: Theme.of(context).textTheme.display1,
@@ -22,16 +28,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _fab(BuildContext context) {
-  return DispatcherBuilder(
-    builder: (context, dispatch) {
-      return FloatingActionButton(
-        onPressed: () => dispatch(IncreaseItemsCount()),
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      );
-    },
-  );
 }

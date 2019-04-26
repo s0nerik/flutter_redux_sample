@@ -1,3 +1,1 @@
-import 'package:rxdart/rxdart.dart';
-
-Stream<List<String>> loadItems() => Observable.timer(List.generate(1000, (i) => "Item $i"), Duration(seconds: 2));
+Future<List<String>> loadItems() => Future.delayed(Duration(seconds: 2), () => List.generate(1000, (i) => "Item $i"));
