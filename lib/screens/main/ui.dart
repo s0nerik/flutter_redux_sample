@@ -18,65 +18,59 @@ class MainScreen extends StatelessWidget {
       mainBloc,
       homeBloc,
       listBloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Hello bloc"),
-        ),
-        body: _Body(),
-        bottomNavigationBar: _BottomNav(),
-      ),
+      builder: (context) => Scaffold(
+            appBar: AppBar(
+              title: Text("Hello bloc"),
+            ),
+            body: _body(context),
+            bottomNavigationBar: _bottomNav(context),
+          ),
     );
   }
 }
 
-class _Body extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final mainBloc = BlocProvider.of<MainBloc>(context);
+Widget _body(BuildContext context) {
+  final mainBloc = BlocProvider.of<MainBloc>(context);
 
-    return ValueObservableBuilder<int>(
-      valueObservable: mainBloc.navBarSelection,
-      builder: (context, navBarSelection, child) {
-        switch (navBarSelection) {
-          case 1:
-            return ListScreen();
-          case 2:
-            return HomeScreen();
-          default:
-            return Container();
-        }
-      },
-    );
-  }
+  return ValueObservableBuilder<int>(
+    valueObservable: mainBloc.navBarSelection,
+    builder: (context, navBarSelection, child) {
+      switch (navBarSelection) {
+        case 1:
+          return ListScreen();
+        case 2:
+          return HomeScreen();
+        default:
+          return Container();
+      }
+    },
+  );
 }
 
-class _BottomNav extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final mainBloc = BlocProvider.of<MainBloc>(context);
+Widget _bottomNav(BuildContext context) {
+  final mainBloc = BlocProvider.of<MainBloc>(context);
 
-    return ValueObservableBuilder<int>(
-      valueObservable: mainBloc.navBarSelection,
-      builder: (BuildContext context, int navBarSelection, Widget child) {
-        return BottomNavigationBar(
-          currentIndex: navBarSelection,
-          onTap: mainBloc.setNavBarSelection,
-          items: [
-            BottomNavigationBarItem(
-              icon: SizedBox(width: 24, height: 24),
-              title: Text("Unused"),
-            ),
-            BottomNavigationBarItem(
-              icon: SizedBox(width: 24, height: 24),
-              title: Text("List"),
-            ),
-            BottomNavigationBarItem(
-              icon: SizedBox(width: 24, height: 24),
-              title: Text("Home"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  return ValueObservableBuilder<int>(
+    valueObservable: mainBloc.navBarSelection,
+    builder: (BuildContext context, int navBarSelection, Widget child) {
+      return BottomNavigationBar(
+        currentIndex: navBarSelection,
+        onTap: mainBloc.setNavBarSelection,
+        items: [
+          BottomNavigationBarItem(
+            icon: SizedBox(width: 24, height: 24),
+            title: Text("Unused"),
+          ),
+          BottomNavigationBarItem(
+            icon: SizedBox(width: 24, height: 24),
+            title: Text("List"),
+          ),
+          BottomNavigationBarItem(
+            icon: SizedBox(width: 24, height: 24),
+            title: Text("Home"),
+          ),
+        ],
+      );
+    },
+  );
 }
