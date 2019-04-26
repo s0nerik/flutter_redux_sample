@@ -30,7 +30,7 @@ class MainScreen extends StatelessWidget {
 }
 
 Widget _body(BuildContext context) {
-  final mainBloc = BlocProvider.of<MainBloc>(context);
+  final mainBloc = Bloc.of<MainBloc>(context);
 
   return ValueObservableBuilder<int>(
     valueObservable: mainBloc.navBarSelection,
@@ -48,7 +48,7 @@ Widget _body(BuildContext context) {
 }
 
 Widget _bottomNav(BuildContext context) {
-  final mainBloc = BlocProvider.of<MainBloc>(context);
+  final mainBloc = Bloc.of<MainBloc>(context);
 
   return ValueObservableBuilder<int>(
     valueObservable: mainBloc.navBarSelection,

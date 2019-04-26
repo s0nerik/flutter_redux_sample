@@ -1,7 +1,15 @@
 import 'package:flutter/widgets.dart';
 
+Type _typeOf<T>() => T;
+
 abstract class Bloc {
   void dispose();
+
+  static T of<T extends Bloc>(BuildContext context) {
+    final type = _typeOf<_BlocProviderInherited<T>>();
+    _BlocProviderInherited<T> provider = context.ancestorInheritedElementForWidgetOfExactType(type).widget;
+    return provider.bloc;
+  }
 }
 
 class BlocProvider<T extends Bloc> extends StatefulWidget {
@@ -15,14 +23,6 @@ class BlocProvider<T extends Bloc> extends StatefulWidget {
 
   @override
   _BlocProviderState<T> createState() => _BlocProviderState<T>();
-
-  static T of<T extends Bloc>(BuildContext context) {
-    final type = _typeOf<_BlocProviderInherited<T>>();
-    _BlocProviderInherited<T> provider = context.ancestorInheritedElementForWidgetOfExactType(type).widget;
-    return provider.bloc;
-  }
-
-  static Type _typeOf<T>() => T;
 }
 
 class _BlocProviderState<T extends Bloc> extends State<BlocProvider<T>> {

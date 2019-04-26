@@ -6,7 +6,7 @@ import 'package:flutter_app/screens/main/list/bloc.dart';
 class ListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final listBloc = BlocProvider.of<ListBloc>(context);
+    final listBloc = Bloc.of<ListBloc>(context);
     return ValueObservableBuilder<List<String>>(
       valueObservable: listBloc.items,
       builder: (BuildContext context, List<String> items, Widget child) {

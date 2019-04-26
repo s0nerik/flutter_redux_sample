@@ -6,7 +6,7 @@ import 'package:flutter_app/screens/main/home/bloc.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final homeBloc = BlocProvider.of<HomeBloc>(context);
+    final homeBloc = Bloc.of<HomeBloc>(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: homeBloc.increaseItemsCount,
