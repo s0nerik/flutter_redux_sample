@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/bloc.dart';
 import 'package:flutter_app/bloc/value_observable_builder.dart';
-import 'package:flutter_app/screens/list/bloc.dart';
+import 'package:flutter_app/screens/main/list/bloc.dart';
 
 class ListScreen extends StatelessWidget {
   @override
