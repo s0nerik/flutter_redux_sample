@@ -14,20 +14,16 @@ class MainScreen extends StatelessWidget {
     final homeBloc = HomeBloc();
     final listBloc = ListBloc(homeBloc.itemCount);
 
-    return BlocProvider(
+    return BlocProvider3(
       mainBloc,
-      child: BlocProvider(
-        homeBloc,
-        child: BlocProvider(
-          listBloc,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text("Hello redux"),
-            ),
-            body: _Body(),
-            bottomNavigationBar: _BottomNav(),
-          ),
+      homeBloc,
+      listBloc,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Hello bloc"),
         ),
+        body: _Body(),
+        bottomNavigationBar: _BottomNav(),
       ),
     );
   }
@@ -37,6 +33,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mainBloc = BlocProvider.of<MainBloc>(context);
+
     return ValueObservableBuilder<int>(
       valueObservable: mainBloc.navBarSelection,
       builder: (context, navBarSelection, child) {
@@ -57,6 +54,7 @@ class _BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mainBloc = BlocProvider.of<MainBloc>(context);
+
     return ValueObservableBuilder<int>(
       valueObservable: mainBloc.navBarSelection,
       builder: (BuildContext context, int navBarSelection, Widget child) {
